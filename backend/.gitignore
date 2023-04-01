@@ -7,6 +7,7 @@ lib-cov
 *.pid
 *.gz
 *.swp
+output
 
 pids
 logs
@@ -21,6 +22,8 @@ coverage
 
 # API keys and secrets
 .env
+adobe-credentials.json
+adobe_private.key
 
 # Dependency directory
 node_modules
