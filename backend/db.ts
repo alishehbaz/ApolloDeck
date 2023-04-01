@@ -1,5 +1,6 @@
 import { Schema, model, connect } from 'mongoose';
-
+import * as dotenv from "dotenv";
+dotenv.config({ path: __dirname+'/.env' });
 // 1. Create an interface representing a document in MongoDB.
 interface IUser {
   name: string;
@@ -21,7 +22,10 @@ run().catch(err => console.log(err));
 
 async function run() {
   // 4. Connect to MongoDB
-  await connect('mongodb://127.0.0.1:27017/test');
+  console.log("Trying to connect");
+  const connectionUrl = `mongodb+srv://${process.env.MONGO_USERNAME}:${process.env.MONGO_PASSWORD}@hackprinceton.gkcskxe.mongodb.net/?retryWrites=true&w=majority`
+  console.log(connectionUrl)
+  await connect(connectionUrl);
 
   const user = new User({
     name: 'Bill',
