@@ -14,10 +14,11 @@
     "typescript": "^5.0.3"
   },
   "dependencies": {
+    "@adobe/pdfservices-node-sdk": "^3.2.0",
     "body-parser": "^1.20.2",
     "dotenv": "^16.0.3",
     "express": "^4.17.1",
     "mongoose": "^7.0.3",
-    "@adobe/pdfservices-node-sdk": "^3.2.0"
+    "openai": "^3.2.1"
   }
 }
