@@ -44,9 +44,9 @@ app.get("/lecture/:lectureId", async (req, res) => {
 });
 
 // Get lectures for a specific course
-app.get("/lecture/:courseId", async (req, res) => {
+app.get("/lectures/:courseId", async (req, res) => {
   const Lecture = model<ILecture>("Lecture", lectureSchema);
-
+  console.log(`course id querying for : ${req.params.courseId}`);
   const response = await Lecture.find({
     courseId: req.params.courseId,
   }).exec();
