@@ -3,6 +3,8 @@ import { Schema, model, connect } from "mongoose";
 import { lectureSchema, ILecture } from "./Models/Lecture";
 import { connectToMongo } from "./db";
 import { Configuration, OpenAIApi } from "openai";
+import * as dotenv from "dotenv";
+dotenv.config({ path: "./env" });
 
 const app = express();
 const port = 3000;
@@ -40,7 +42,7 @@ app.post("/generate-content", async (req, res) => {
     // Get table of contents
     const prompt_tof = `First, visit this link ${pdf_link}, which is a textbook pdf. \
 You will give me the table of content. Do not explain, do not say 'sure' or other transition words. Begin your reply only with the list of table of content. Beging with '1.', '2.', etc. Make a new line for each chapter.`;
-
+    console.log(configuration.apiKey);
     const response_tof = await openai.createChatCompletion({
       model: "gpt-3.5-turbo",
       messages: [{ role: "user", content: prompt_tof }],
@@ -56,16 +58,24 @@ You will give me the table of content. Do not explain, do not say 'sure' or othe
     const response_chapter_slides = {};
 
     for (const chapter_title of tof_list) {
-      const prompt_by_chapter = `I want you to act as a slides generator. Note that \
-a slide is consisted of a title, 5 bullet points and an example if you feel appropriate. If the link is math heavy, show math fomulae. \
-If it's code heavy, show code. Remember your audience will be college students and your generation will help professors.  \
-I want you to only reply with the sides content inside one message, and nothing else. do not write explanations. \
-do not message the slides content. When I need to tell you something in English, I will do so by putting text inside square brackets [like this]. \
-Remember, your reply must be in a template like 'Title: ... Slide 1:... Slide 2:...'. Remember, you should give me 10 slides!My first \
-command is [ONLY Read chapter titled '${chapter_title}' but no other chapter from this link '${pdf_link}'. Generate \
-a powerpoint. The number of slides should be proportional to number of subsections in the chapter. For \
-EACH slide, make it VERY VERY concrete and give example from the link. You should format your response in \
-markdown syntax: for code, embrase with backtick '\`'; for math formula, embrace with dollar sign '$'`;
+      const prompt_by_chapter = `I want you to act as a slides generator. Note that a slide consists of \
+      a title, 4-7 bullet points (in full english sentences) and an example if you feel \
+      appropriate. If the link is math heavy, wrap math fomulae in latex code. If it's \
+      code heavy, wrap code in code blockl. Remember that your audience will be college \
+      students, and your generation will help professors. I want you to only reply with the \
+      side's content inside one message and nothing else. Do not write explanations.  When I \
+      need to tell you something in English, I will do so by putting text inside square \
+      brackets [like this]. Remember, your reply must be in a template like \
+      '# <Title> ##<Optional Subtitle> --- #<Slide 1 Title> <Slide 1 Content> --- # <Slide 2 Title> <Slide 2 Content>' \
+      and so on; note the markdown formatting with three dashes between each H1 heading. \
+      Remember, you should generally give me 8-10 slides, but if the material is denser \
+      and requires more profound understanding, you may exceed the 8-10 slide limit! \
+      My first command is [ONLY Read the chapter titled ${chapter_title} but no other chapter from \
+      this link ${pdf_link}. \
+      Generate a powerpoint. The number of slides should be proportional to the number of \
+      subsections in the chapter. For EACH slide, make it VERY VERY concrete and give \
+      examples from the link if needed. You should format your response in RAW \
+      markdown syntax: for code. DO NOT RENDER THET MARKDOWN. GIVE ME RAW MARDOWN TEXTS.]`;
 
       const response_per_chapter = await openai.createChatCompletion({
         model: "gpt-3.5-turbo",
