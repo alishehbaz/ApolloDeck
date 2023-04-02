@@ -12,6 +12,7 @@ export type LectureProp = {
   title: string;
   status: LectureStatus;
   hasNFT: boolean;
+  slidesURL: string;
 };
 
 export type CourseProp = {
