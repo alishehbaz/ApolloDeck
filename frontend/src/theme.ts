@@ -12,6 +12,7 @@ const theme = extendTheme({
     highlight: {
       100: "#d3efbd",
       200: "#b6e393",
+      300: "orange",
     },
     primary: {
       100: "#8b2635",
