@@ -8,7 +8,7 @@ import {
 import getHighlightStyle from "../utils/highlight";
 import { useMatch, Link } from "react-router-dom";
 
-export const tabs = ["Home", "Lectures", "Generate", "Login"];
+export const tabs = ["Home", "Courses", "Generate", "Login"];
 
 const LinkItem = (highlightStyle: any, tab: string) => {
   const isActiveTab = useMatch(tab);

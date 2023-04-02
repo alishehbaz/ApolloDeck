@@ -29,7 +29,7 @@ const Home = () => {
       >
         <GridItem rowSpan={1} colSpan={3}>
           <Heading>
-            <FontAwesomeIcon color={toVar("primary.100")} icon={faGlobe}/>
+            <FontAwesomeIcon color={toVar("primary.100")} icon={faGlobe} />
             Lectures of the future
           </Heading>
         </GridItem>
