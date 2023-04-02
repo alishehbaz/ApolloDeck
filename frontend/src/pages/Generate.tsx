@@ -10,11 +10,12 @@ import Centered from "../layouts/Centered";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { postLecture } from "../services/lectures";
-import { redirect } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 const Generate = () => {
   const { handleSubmit, register, watch } = useForm();
   const [pending, setPending] = useState(false);
+  const navigate = useNavigate();
   const pdfFile = watch("pdfFile");
   const pdfFileBytes = watch("pdfFileBytes");
   // const [file, setFile] = useState("");
@@ -22,8 +23,11 @@ const Generate = () => {
     setPending(true);
     console.log("submitting", values);
     postLecture(values).then((data) => {
-      setPending(false);
-      redirect(`/lectures/${data.courseId}`);
+      setTimeout(() => {
+        setPending(false);
+        console.log(`redirecting to /lectures/${data.courseID}`);
+        navigate(`/lectures/${data.courseID}`);
+      }, 1000);
     });
   };
 

@@ -13,7 +13,7 @@ const Courses = () => {
   }, []);
   return (
     <BoxFlex text="@ my courses">
-      {courses !== undefined ? (
+      {!!courses ? (
         courses.map((course, idx) => (
           <SquareBox slides={course} key={idx} isLecture={false} />
         ))
