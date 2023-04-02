@@ -3,13 +3,16 @@ import { Box, Heading, Input, Stack, Text } from "@chakra-ui/react";
 import { faCloudUpload } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { motion, useAnimation } from "framer-motion";
+import { UseFormRegister, FieldValues } from "react-hook-form";
 
 const Upload = ({
-  value,
-  setValue,
+  register,
+  pdfFile,
+  pdfFileBytes,
 }: {
-  value: string;
-  setValue: (s: string) => any;
+  register: UseFormRegister<FieldValues>;
+  pdfFile: string;
+  pdfFileBytes: any;
 }) => {
   const controls = useAnimation();
   const startAnimation = () => controls.start("hover");
@@ -63,16 +66,23 @@ const Upload = ({
               <FontAwesomeIcon fontSize="48" icon={faCloudUpload} />
             </Box>
             <Stack p="8" textAlign="center" spacing="1">
-              {!!value ? (
+              {!!pdfFile ? (
                 <Box fontWeight="light">
-                  Uploaded<Text color="primary.100">{value}</Text>
+                  Using URL <Text color="primary.100">{pdfFile}</Text>
+                </Box>
+              ) : !!pdfFileBytes &&
+                pdfFileBytes.length > 0 &&
+                !!pdfFileBytes[0]?.name ? (
+                <Box fontWeight="light">
+                  Using file
+                  <Text color="primary.100">{pdfFileBytes[0].name}</Text>
                 </Box>
               ) : (
                 <>
                   <Heading fontSize="lg" color="gray.700" fontWeight="bold">
                     Drop textbook PDF here
                   </Heading>
-                  <Text fontWeight="light">or click to upload</Text>
+                  <Text fontWeight="light">or enter the URL below</Text>
                 </>
               )}
             </Stack>
@@ -87,13 +97,11 @@ const Upload = ({
           left="0"
           opacity="0"
           aria-hidden="true"
+          {...register("pdfFileBytes")}
           accept=".pdf"
           onDragEnter={startAnimation}
           onDragLeave={stopAnimation}
-          value={value}
-          onChange={(e) => {
-            setValue(e.target.value);
-          }}
+          //   value={value}
         />
       </Box>
     </Box>

@@ -35,7 +35,7 @@ const Home = () => {
         </GridItem>
         <GridItem rowSpan={2} colSpan={3} fontSize="2rem">
           <LinkBtn to="/generate" content="Get Started" icon={faPlay} />
-          <LinkBtn to="/lectures" content="My Lectures" icon={faIndustry} />
+          <LinkBtn to="/courses" content="My Courses" icon={faIndustry} />
         </GridItem>
       </Grid>
       <Box>

@@ -1,4 +1,5 @@
 import { CourseProp, LectureProp } from "../components/SquareBox";
+import axios from "axios";
 
 const coursesData: CourseProp[] = [
   { course: "Intro to Programming", numSlides: 4 },
@@ -59,14 +60,47 @@ const lecturesData: LectureProp[] = [
   },
 ].map((lecture, idx) => ({ lectureId: idx.toString(), ...(lecture as any) }));
 
+type PostLecture = {
+  course: string;
+  generateNFT: boolean;
+  tone: string;
+  pdfFile: string;
+};
+
+const apiUrl = (endpoint: string) => {
+  return `http://localhost:3000/${endpoint}`;
+};
+
 export const getCourses = async () => {
-  return coursesData.concat(coursesData, coursesData);
+  return axios.get(apiUrl("courses")).then((resp) => {
+    const data = resp.data;
+    console.log("courses", data);
+    return data;
+  });
 };
 
-export const getLectures = async (course: string) => {
-  return lecturesData.concat(lecturesData, lecturesData);
+export const getLectures = async (courseId: string) => {
+  return axios.get(apiUrl(`lectures/${courseId}`)).then((resp) => {
+    const data = resp.data;
+    console.log("lectures", data);
+    return data;
+  });
+  // return lecturesData.concat(lecturesData, lecturesData);
 };
 
-export const getLecture = async (lecture: string) => {
-  return lecturesData.find((val) => val.lectureId === lecture);
+export const getLecture = async (lectureId: string) => {
+  return axios.get(apiUrl(`lecture/${lectureId}`)).then((resp) => {
+    const data = resp.data;
+    console.log("lecture", data);
+    return data;
+  });
+  // return lecturesData.find((val) => val.lectureId === lecture);
+};
+
+export const postLecture = async (data: PostLecture) => {
+  return axios.post(apiUrl("lecture"), data).then((resp) => {
+    const data = resp.data;
+    console.log(data);
+    return data;
+  });
 };
