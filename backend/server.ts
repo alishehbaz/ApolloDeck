@@ -1,4 +1,5 @@
 import express from "express";
+import cors from "cors";
 import { Schema, model, connect } from "mongoose";
 import { lectureSchema, ILecture } from "./Models/Lecture";
 import { connectToMongo } from "./db";
@@ -10,6 +11,7 @@ import { v4 as uuidv4 } from "uuid";
 const app = express();
 const port = 3000;
 app.use(express.urlencoded({ extended: true }));
+app.use(cors());
 
 app.get("/", (req, res) => {
   res.send("Render homepage here");
