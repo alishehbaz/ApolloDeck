@@ -9,8 +9,7 @@ const BoxFlex = ({
   children: JSX.Element | JSX.Element[];
 }) => {
   return (
-    <Centered>
-      {text}
+    <Centered heading={text}>
       <Flex
         w="100%"
         marginTop={3}

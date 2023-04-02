@@ -6,10 +6,7 @@ import { useState } from "react";
 const Generate = () => {
   const [file, setFile] = useState("");
   return (
-    <Centered padding="25%">
-      <Box marginTop={5} marginBottom={5}>
-        @ Generate - create your lecture slides!
-      </Box>
+    <Centered padding="25%" heading="@ Generate - create your lecture slides!">
       <Upload value={file} setValue={setFile} />
     </Centered>
   );
