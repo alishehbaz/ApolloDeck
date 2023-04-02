@@ -2,11 +2,13 @@ import { Box } from "@chakra-ui/react";
 
 const Centered = ({
   children,
+  padding = "20%",
 }: {
   children: JSX.Element | (JSX.Element | string)[];
+  padding?: any;
 }) => {
   return (
-    <Box paddingLeft="20%" paddingRight="20%">
+    <Box paddingLeft={padding} paddingRight={padding}>
       {children}
     </Box>
   );
