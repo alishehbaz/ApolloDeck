@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 dotenv.config({ path: "./env" });
 import { v4 as uuidv4 } from "uuid";
 import * as fs from "node:fs";
-import { exec } from "node:child_process";
+import { execFileSync } from "node:child_process";
 
 const app = express();
 const port = 3000;
@@ -34,30 +34,12 @@ function jsonDumping(jsonText) {
         if (err) {
           console.error(err);
         }
-        exec(
-          `npx @marp-team/marp-cli@latest ./markdowns/${key}.md -o ./htmls/${key}.html`,
-          (err, output) => {
-            // once the command has completed, the callback function is called
-            if (err) {
-              // log and return if we encounter an error
-              console.error("could not execute command: ", err);
-              return;
-            }
-            // log the output received from the command
-            console.log("Output: \n", output);
-          }
-        );
-        // var cmd = exec(
-        //   `npx @marp-team/marp-cli@latest ./markdowns/${key}.md -o ./htmls/${key}.html`,
-        //   function (err, stdout, stderr) {
-        //     if (err) {
-        //       // handle error
-        //       console.log("ERRROR HWILW USING MARP");
-        //     }
-        //     console.log(stdout);
-        //   }
-        // );
-        // file written successfully
+        setTimeout(() => {
+          execFileSync(
+            "npx",
+            ["@marp-team/marp-cli@latest", `./markdowns/${key}.md`, "-o", `./htmls/${key}.html`],
+          );
+        }, 100);
       });
     }
   }
