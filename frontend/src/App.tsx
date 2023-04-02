@@ -5,6 +5,7 @@ import Home from "./pages/Home";
 import Courses from "./pages/Courses";
 import WithNavBar from "./layouts/WithNavBar";
 import Lectures from "./pages/Lectures";
+import Generate from "./pages/Generate";
 
 function App() {
   return (
@@ -17,7 +18,7 @@ function App() {
             <Route path="courses" element={<Courses />} />
             <Route path="lecture/:lectureId" element={<Lectures />} />
             <Route path="lectures/:courseId" element={<Lectures />} />
-            <Route path="generate" element={<Home />} />
+            <Route path="generate" element={<Generate />} />
             <Route path="login" element={<Home />} />
             <Route path="*" element={<Navigate to="home" />} />
           </Route>
