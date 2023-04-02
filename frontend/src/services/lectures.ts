@@ -104,3 +104,7 @@ export const postLecture = async (data: PostLecture) => {
     return data;
   });
 };
+
+export const getSlidesURL = (lectureId: string) => {
+  return {html: apiUrl(`htmls/${lectureId}.html`), pptx: apiUrl(`pptx/${lectureId}.pptx`), pdf: apiUrl(`pdfs/${lectureId}.pdf`)};
+}

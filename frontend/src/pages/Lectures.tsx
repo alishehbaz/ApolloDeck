@@ -9,6 +9,7 @@ import BoxFlex from "../layouts/BoxFlex";
 const Lectures = () => {
   const params = useParams();
   const [lectures, setLectures] = React.useState<LectureProp[]>();
+
   React.useEffect(() => {
     if (params.courseId === undefined) return;
     getLectures(params.courseId).then((lectures) => {
@@ -18,11 +19,11 @@ const Lectures = () => {
 
   return (
     <BoxFlex text="@ my lectures">
-      {lectures !== undefined ? (
+      {lectures !== undefined ? ( lectures.length > 0 ?(
         lectures.map((lecture, idx) => (
           <SquareBox slides={lecture} key={idx} isLecture />
         ))
-      ) : (
+      ): <Box>The slides are being generated right now!</Box>) : (
         <Loading />
       )}
     </BoxFlex>

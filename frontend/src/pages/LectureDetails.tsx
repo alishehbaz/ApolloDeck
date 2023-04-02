@@ -1,7 +1,7 @@
 import * as React from "react";
 import { LectureProp } from "../components/SquareBox";
 import Centered from "../layouts/Centered";
-import { getLecture } from "../services/lectures";
+import { getLecture, getSlidesURL } from "../services/lectures";
 import { Link, useParams } from "react-router-dom";
 import Loading from "../components/Loading";
 import {
@@ -79,11 +79,19 @@ const LectureDetails = () => {
               </Box>
               <ButtonGroup spacing="2">
                 <Link
-                  to={lecture.slidesURL ?? "https://slides.google.com"}
+                  to={getSlidesURL(lecture.lectureId).html}
                   target="_blank"
                 >
                   <Button variant="solid" colorScheme="blue">
-                    Goolge Slides {lecture.slidesURL}
+                    Slides as HTML
+                  </Button>
+                </Link>
+                <Link
+                  to={getSlidesURL(lecture.lectureId).pptx}
+                  target="_blank"
+                >
+                  <Button variant="solid" colorScheme="blue">
+                    Slides as .pptx
                   </Button>
                 </Link>
                 <Button
@@ -93,7 +101,7 @@ const LectureDetails = () => {
                   _hover={{ cursor: "not-allowed" }}
                   disabled
                 >
-                  Download .pptx
+                  Download .pdf
                 </Button>
               </ButtonGroup>
             </Stack>
