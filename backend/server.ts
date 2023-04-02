@@ -7,6 +7,8 @@ import { Configuration, OpenAIApi } from "openai";
 import * as dotenv from "dotenv";
 dotenv.config({ path: "./env" });
 import { v4 as uuidv4 } from "uuid";
+import * as fs from "node:fs";
+import { exec } from "node:child_process";
 
 const app = express();
 const port = 3000;
@@ -16,6 +18,49 @@ app.use(cors());
 app.get("/", (req, res) => {
   res.send("Render homepage here");
 });
+
+function jsonDumping(jsonText) {
+  const p = jsonText;
+  // p is JSON object
+  for (var key in p) {
+    if (p.hasOwnProperty(key)) {
+      console.log(key + " -> " + p[key]); // prints key and then value
+      let filehandle;
+      let filename = `./markdowns/${key}.md`;
+      let content = p[key];
+
+      fs.writeFile(filename, content, (err) => {
+        if (err) {
+          console.error(err);
+        }
+        exec(
+          `npx @marp-team/marp-cli@latest ./markdowns/${key}.md -o ./htmls/${key}.html`,
+          (err, output) => {
+            // once the command has completed, the callback function is called
+            if (err) {
+              // log and return if we encounter an error
+              console.error("could not execute command: ", err);
+              return;
+            }
+            // log the output received from the command
+            console.log("Output: \n", output);
+          }
+        );
+        // var cmd = exec(
+        //   `npx @marp-team/marp-cli@latest ./markdowns/${key}.md -o ./htmls/${key}.html`,
+        //   function (err, stdout, stderr) {
+        //     if (err) {
+        //       // handle error
+        //       console.log("ERRROR HWILW USING MARP");
+        //     }
+        //     console.log(stdout);
+        //   }
+        // );
+        // file written successfully
+      });
+    }
+  }
+}
 
 app.post("/lecture", (req, res) => {
   // 3. Create a Model.
@@ -143,6 +188,7 @@ You will give me the table of content. Do not explain, do not say 'sure' or othe
       response_per_chapter.data.choices[0].message.content.trim();
     lecture.status = "ready";
     lecture.save();
+    jsonDumping(response_chapter_slides);
     console.log(response_chapter_slides);
   }
 
