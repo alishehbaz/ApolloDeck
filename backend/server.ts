@@ -71,7 +71,7 @@ app.post("/lecture", (req, res) => {
   connectToMongo().catch((err) => console.log(err));
 
   const courseID = uuidv4();
-  get_model_response(Lecture, courseID, course);
+  get_model_response(Lecture, courseID, course, pdfFile);
 
   console.log("Lecture Details Saved");
 
@@ -105,6 +105,7 @@ app.get("/lectures/:courseId", async (req, res) => {
 
 app.get("/courses", async (req, res) => {
   const Lecture = model<ILecture>("Lecture", lectureSchema);
+  connectToMongo().catch((err) => console.log(err));
   const response = await Lecture.find({}).distinct("courseId").exec();
   console.log(response);
 
@@ -121,9 +122,8 @@ app.get("/courses", async (req, res) => {
   res.json(courseObjectList);
 });
 
-async function get_model_response(Lecture, courseID, course) {
-  const pdf_link =
-    "https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf";
+async function get_model_response(Lecture, courseID, course, pdf_link) {
+  // const pdf_link = "https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf";
   const configuration = new Configuration({
     apiKey: process.env.OPEN_AI_API_KEY,
   });
