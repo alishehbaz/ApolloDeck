@@ -1,11 +1,9 @@
-import * as React from "react";
 import {
   Grid,
   GridItem,
   SimpleGrid,
   Box,
   Link,
-  Text,
   Heading,
 } from "@chakra-ui/react";
 import TutorImg from "../assets/tutor.jpg";
@@ -15,7 +13,6 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faPlay, faIndustry, faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 const Home = () => {
-  const highlightStyle = getHighlightStyle();
   const highlightStyleWide = getHighlightStyle("90%");
   return (
     <SimpleGrid columns={2} spacing={10} padding={10}>
