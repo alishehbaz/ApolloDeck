@@ -15,7 +15,7 @@ const BoxFlex = ({
         marginTop={3}
         gap="4"
         alignItems="left"
-        justifyContent="space-between"
+        justifyContent="flex-start"
         wrap="wrap"
       >
         {children}

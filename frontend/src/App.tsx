@@ -20,7 +20,6 @@ function App() {
             <Route path="lecture/:lectureId" element={<LectureDetails />} />
             <Route path="lectures/:courseId" element={<Lectures />} />
             <Route path="generate" element={<Generate />} />
-            <Route path="login" element={<Home />} />
             <Route path="*" element={<Navigate to="home" />} />
           </Route>
         </Routes>
