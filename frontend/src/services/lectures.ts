@@ -66,3 +66,7 @@ export const getCourses = async () => {
 export const getLectures = async (course: string) => {
   return lecturesData.concat(lecturesData, lecturesData);
 };
+
+export const getLecture = async (lecture: string) => {
+  return lecturesData.find((val) => val.lectureId === lecture);
+};

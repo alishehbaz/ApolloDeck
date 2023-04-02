@@ -64,7 +64,9 @@ const Upload = ({
             </Box>
             <Stack p="8" textAlign="center" spacing="1">
               {!!value ? (
-                  <Box fontWeight="light">Uploaded<Text color="primary.100">{value}</Text></Box>
+                <Box fontWeight="light">
+                  Uploaded<Text color="primary.100">{value}</Text>
+                </Box>
               ) : (
                 <>
                   <Heading fontSize="lg" color="gray.700" fontWeight="bold">
