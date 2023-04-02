@@ -15,34 +15,36 @@ const port = 3000;
 app.use(express.urlencoded({ extended: true }));
 app.use(cors());
 app.use(express.json());
+app.use("/htmls", express.static(__dirname + "/htmls"));
+app.use("/pptx", express.static(__dirname + "/pptx"));
 
 app.get("/", (req, res) => {
   res.send("Render homepage here");
 });
 
-function jsonDumping(jsonText) {
-  const p = jsonText;
+function jsonDumping(jsonText, lectureId) {
+  const key = lectureId
   // p is JSON object
-  for (var key in p) {
-    if (p.hasOwnProperty(key)) {
-      console.log(key + " -> " + p[key]); // prints key and then value
-      let filehandle;
-      let filename = `./markdowns/${key}.md`;
-      let content = p[key];
+  console.log(key + " -> " + jsonText); // prints key and then value
+  let filename = `./markdowns/${key}.md`;
 
-      fs.writeFile(filename, content, (err) => {
-        if (err) {
-          console.error(err);
-        }
-        setTimeout(() => {
-          execFileSync(
-            "npx",
-            ["@marp-team/marp-cli@latest", `./markdowns/${key}.md`, "-o", `./htmls/${key}.html`],
-          );
-        }, 100);
-      });
+  fs.writeFile(filename, jsonText, (err) => {
+    if (err) {
+      console.error(err);
     }
-  }
+    setTimeout(() => {
+      execFileSync(
+        "npx",
+        ["@marp-team/marp-cli@latest", `./markdowns/${key}.md`, "-o", `./htmls/${lectureId}.html`],
+      );
+    }, 100);
+    setTimeout(() => {
+      execFileSync(
+        "npx",
+        ["@marp-team/marp-cli@latest", `./markdowns/${key}.md`, "-o", `./pptx/${lectureId}.pptx`],
+      );
+    }, 100);
+  });
 }
 
 app.post("/lecture", (req, res) => {
@@ -171,7 +173,7 @@ You will give me the table of content. Do not explain, do not say 'sure' or othe
       response_per_chapter.data.choices[0].message.content.trim();
     lecture.status = "ready";
     lecture.save();
-    jsonDumping(response_chapter_slides);
+    jsonDumping(response_chapter_slides[chapter_title], lecture.lectureId);
     console.log(response_chapter_slides);
   }
 
