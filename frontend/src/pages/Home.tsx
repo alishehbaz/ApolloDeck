@@ -39,7 +39,7 @@ const Home = () => {
         <img width="80%" src={TutorImg} />
         <Box paddingRight="20%" textAlign="right">
           <Link {...highlightStyleWide(true)} fontSize={32}>
-            ProfessorPrep
+            ApolloDeck
           </Link>
         </Box>
       </Box>

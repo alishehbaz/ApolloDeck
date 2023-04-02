@@ -1,2 +1,2 @@
-# ProfessorPrep
+# ApolloDeck
 HackPrinceton2023
