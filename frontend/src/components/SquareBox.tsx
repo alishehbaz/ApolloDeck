@@ -1,4 +1,3 @@
-import * as React from "react";
 import { Grid, GridItem, Text } from "@chakra-ui/react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBook } from "@fortawesome/free-solid-svg-icons";
