@@ -23,20 +23,8 @@ app.post("/lecture", (req, res) => {
 
   connectToMongo().catch((err) => console.log(err));
 
-  // const lecture = new Lecture({
-  //   lectureId: uuidv4(),
-  //   title: "empty",
-  //   courseId: uuidv4(),
-  //   course: course,
-  //   status: "pending",
-  //   hasNFT: false,
-  //   slidesURL: "./",
-  // });
-
   const courseID = uuidv4();
   get_model_response(Lecture, courseID, course);
-
-  //lecture.save();
 
   console.log("Lecture Details Saved");
 
@@ -55,10 +43,38 @@ app.get("/lecture/:lectureId", async (req, res) => {
   res.json(response);
 });
 
-// app.post("/generate-content", async (req, res) => {
+// Get lectures for a specific course
+app.get("/lecture/:courseId", async (req, res) => {
+  const Lecture = model<ILecture>("Lecture", lectureSchema);
+
+  const response = await Lecture.find({
+    courseId: req.params.courseId,
+  }).exec();
+
+  console.log(response);
+
+  res.json(response);
+});
+
+app.get("/courses", async (req, res) => {
+  const Lecture = model<ILecture>("Lecture", lectureSchema);
+  const response = await Lecture.find({}).distinct("courseId").exec();
+  console.log(response);
+
+  let courseObjectList = [];
+
+  for (const c_id of response) {
+    const cid_response = await Lecture.findOne({
+      courseId: c_id,
+    }).exec();
+
+    courseObjectList.push(cid_response);
+  }
+
+  res.json(courseObjectList);
+});
+
 async function get_model_response(Lecture, courseID, course) {
-  // try {
-  // const { pdf_link } = req.body;
   const pdf_link =
     "https://pdos.csail.mit.edu/6.S081/2020/xv6/book-riscv-rev1.pdf";
   const configuration = new Configuration({
@@ -129,12 +145,6 @@ You will give me the table of content. Do not explain, do not say 'sure' or othe
   }
 
   console.log("All lectures have been generated");
-  //   res.json({ success: true, response_chapter_slides });
-  // } catch (error) {
-  //   console.error(error);
-  //   res.status(500).json({ success: false, message: "Internal Server Error" });
-  // }
-  //}
 }
 
 app.listen(port, () => {
