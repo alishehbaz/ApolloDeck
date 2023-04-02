@@ -5,12 +5,14 @@ import {
   SimpleGrid,
   Box,
   Link,
+  Text,
   Heading,
 } from "@chakra-ui/react";
 import TutorImg from "../assets/tutor.jpg";
-import getHighlightStyle from "../utils/highlight";
+import getHighlightStyle, { toVar } from "../utils/highlight";
 import LinkBtn from "../components/LinkBtn";
-import { faIndustry, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlay, faIndustry, faGlobe } from "@fortawesome/free-solid-svg-icons";
 
 const Home = () => {
   const highlightStyle = getHighlightStyle();
@@ -21,11 +23,15 @@ const Home = () => {
         templateRows="repeat(4, 1fr)"
         templateColumns="repeat(3, 1fr)"
         gap="10"
-        padding="20%"
-        textAlign="right"
+        padding="10%"
+        paddingTop="20%"
+        textAlign="center"
       >
         <GridItem rowSpan={1} colSpan={3}>
-          <Heading>Lectures of the future</Heading>
+          <Heading>
+            <FontAwesomeIcon color={toVar("primary.100")} icon={faGlobe}/>
+            Lectures of the future
+          </Heading>
         </GridItem>
         <GridItem rowSpan={2} colSpan={3} fontSize="2rem">
           <LinkBtn to="/generate" content="Get Started" icon={faPlay} />
