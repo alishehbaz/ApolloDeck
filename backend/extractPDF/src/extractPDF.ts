@@ -1,13 +1,22 @@
 import { Credentials, Error, ExecutionContext, ExtractPDF, FileRef } from '@adobe/pdfservices-node-sdk'
 import { parse } from 'path'
+import * as dotenv from "dotenv"
+dotenv.config({ path: '../../.env' })
 
 export async function extractPDF(fp: string) {
   try {
     // Credential setup
     const credentials: Credentials = Credentials
       .serviceAccountCredentialsBuilder()
-      .fromFile("../adobe-credentials.json")
+      .withClientId(process.env.ADOBE_CLIENT_ID)
+      .withClientSecret(process.env.ADOBE_CLIENT_SECRET)
+      .withOrganizationId(process.env.ADOBE_ORGANIZATION_ID)
+      .withAccountId(process.env.ADOBE_ACCOUNT_ID)
+      .withPrivateKey(process.env.ADOBE_PRIVATE_KEY)
       .build()
+
+    // .fromFile("../adobe-credentials.json")
+    // .build()
 
     // Execution context
     const executionContext: ExecutionContext = ExecutionContext.create(credentials)
